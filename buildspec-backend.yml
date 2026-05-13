@@ -4,17 +4,22 @@ phases:
   install:
     runtime-versions:
       java: corretto17
+
   pre_build:
     commands:
       - echo "=== backend build start ==="
       - java -version
+
   build:
     commands:
       - cd backend && chmod +x gradlew && ./gradlew bootJar -x test
+
   post_build:
     commands:
       - mkdir -p deploy-backend
-      - cp backend/build/libs/note-app.jar deploy-backend/
+      - echo "=== built jar files ==="
+      - ls -la backend/build/libs/
+      - cp backend/build/libs/*.jar deploy-backend/note-app.jar
       - cp backend/Procfile deploy-backend/
       - '[ -d backend/.ebextensions ] && cp -r backend/.ebextensions deploy-backend/ || true'
       - ls -la deploy-backend/
@@ -24,4 +29,3 @@ artifacts:
     - '**/*'
   base-directory: deploy-backend
   discard-paths: no
-
