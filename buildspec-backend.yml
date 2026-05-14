@@ -7,22 +7,17 @@ phases:
 
   pre_build:
     commands:
-      - echo "=== backend build start ==="
       - java -version
 
   build:
     commands:
-      - cd $CODEBUILD_SRC_DIR/backend
-      - chmod +x gradlew
-      - ./gradlew bootJar -x test
+      - chmod +x ./backend/gradlew
+      - ./backend/gradlew -p ./backend bootJar -x test
 
   post_build:
     commands:
-      - cd $CODEBUILD_SRC_DIR
       - mkdir -p deploy-backend
-      - echo "=== built jar files ==="
-      - ls -la backend/build/libs/
-      - cp backend/build/libs/*.jar deploy-backend/note-app.jar
+      - cp backend/build/libs/note-app.jar deploy-backend/
       - cp backend/Procfile deploy-backend/
       - '[ -d backend/.ebextensions ] && cp -r backend/.ebextensions deploy-backend/ || true'
       - ls -la deploy-backend/
