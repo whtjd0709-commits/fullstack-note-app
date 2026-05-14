@@ -12,10 +12,13 @@ phases:
 
   build:
     commands:
-      - cd backend && chmod +x gradlew && ./gradlew bootJar -x test
+      - cd $CODEBUILD_SRC_DIR/backend
+      - chmod +x gradlew
+      - ./gradlew bootJar -x test
 
   post_build:
     commands:
+      - cd $CODEBUILD_SRC_DIR
       - mkdir -p deploy-backend
       - echo "=== built jar files ==="
       - ls -la backend/build/libs/
