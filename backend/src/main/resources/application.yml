@@ -32,7 +32,7 @@ server:
 # CORS 허용 출처 (Next.js FE ALB DNS)
 app:
   cors:
-    allowed-origins: ${CORS_ORIGINS:http://localhost:3000}
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:3000}
 
 # Actuator (ALB 헬스 체크용)
 management:
